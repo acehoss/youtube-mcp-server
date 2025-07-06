@@ -1,24 +1,27 @@
 # YouTube MCP Server
 
-This is a Model Context Protocol (MCP) server for integrating YouTube functionality with AI language models.
+This is a Model Context Protocol (MCP) server for integrating YouTube functionality with AI language models. It uses YouTube.js (youtubei.js) to access YouTube's internal API without requiring API keys.
 
 ## Deployment
 
-This server can be deployed in two ways:
+This server can be deployed in multiple ways:
 
-1. As a local npm package:
+1. Via npx (recommended):
    ```
-   npm install zubeid-youtube-mcp-server
+   npx github:acehoss/youtube-mcp-server
    ```
 
-2. Via Docker deployment on Smithery:
-   The server includes a Dockerfile and smithery.yaml for deployment.
+2. As a local npm package:
+   ```
+   npm install youtube-mcp-server
+   ```
+
+3. Via Docker deployment:
+   The server includes a Dockerfile for containerized deployment.
 
 ## Configuration
 
-The server requires the following environment variables:
-- `YOUTUBE_API_KEY`: Your YouTube Data API key (required)
-- `YOUTUBE_TRANSCRIPT_LANG`: Default language for transcripts (optional, defaults to 'en')
+No configuration or API keys required! YouTube.js handles all authentication internally.
 
 ## API Endpoints
 
@@ -26,6 +29,8 @@ The server provides the following MCP methods:
 
 - `videos.getVideo`: Get detailed information about a YouTube video
 - `videos.searchVideos`: Search for videos on YouTube
+- `videos.getTrending`: Get trending videos
+- `videos.getRelated`: Get related videos
 - `transcripts.getTranscript`: Get the transcript of a YouTube video
 - `channels.getChannel`: Get information about a YouTube channel
 - `channels.listVideos`: Get videos from a specific channel
@@ -35,8 +40,8 @@ The server provides the following MCP methods:
 ## Common Issues
 
 If you're encountering deployment issues, ensure:
-1. Your YouTube API key is properly configured
-2. The server has internet access to connect to YouTube APIs
-3. The Docker build process has sufficient resources
+1. The server has internet access to connect to YouTube
+2. The Docker build process has sufficient resources (if using Docker)
+3. Node.js version 16 or higher is installed
 
 For more details, please refer to the README.md or open an issue on GitHub.

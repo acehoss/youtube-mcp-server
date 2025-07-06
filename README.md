@@ -149,3 +149,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Built on [YouTube.js](https://github.com/LuanRT/YouTube.js) by LuanRT
 - Implements the [Model Context Protocol](https://modelcontextprotocol.io/) specification
+- Originally forked from [youtube-mcp-server](https://github.com/ZubeidHendricks/youtube-mcp-server) by Zubeid Hendricks

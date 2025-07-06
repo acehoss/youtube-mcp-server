@@ -57,13 +57,11 @@ The codebase uses a unified service pattern:
 - Old service files in `src/services/` (video.ts, channel.ts, etc.) are no longer used
 
 ### Type Definitions
-Custom type definitions for external libraries without proper types are in `src/types/`:
-- `youtube-transcript.d.ts` for the youtube-transcript package
+Custom type definitions for external libraries without proper types are in `src/types/`
 
 ### Deployment Considerations
 - Docker deployment uses Node.js 16 Alpine and builds during container creation
-- Smithery platform configuration is in `smithery.yaml`
-- NPM package includes a CLI binary installed as `zubeid-youtube-mcp-server`
+- NPM package includes a CLI binary installed as `youtube-mcp-server`
 
 ### Common Development Tasks
 

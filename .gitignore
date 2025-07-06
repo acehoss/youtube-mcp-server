@@ -22,21 +22,12 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Application files to ignore
-*.pak
-*.dll
-*.exe
-*.dat
-*.ico
-*.json
-/resources/
-/locales/
-/frontend-new/
-/frontend-temp/
-/zoobayd-platform-fresh/
-/zoobayd-platform-new/
+# Test coverage
+coverage/
+.nyc_output/
 
 # Keep specific JSON files
 !package.json
 !tsconfig.json
-!.env.example
+!jest.config.js
+!tsconfig.test.json
