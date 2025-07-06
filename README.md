@@ -1,15 +1,14 @@
 # YouTube MCP Server
-[![smithery badge](https://smithery.ai/badge/@ZubeidHendricks/youtube)](https://smithery.ai/server/@ZubeidHendricks/youtube)
 
-A Model Context Protocol (MCP) server implementation for YouTube, enabling AI language models to interact with YouTube content through a standardized interface.
+A Model Context Protocol (MCP) server implementation for YouTube, enabling AI language models to interact with YouTube content through a standardized interface. This server uses YouTube.js (youtubei.js) to access YouTube's internal API, eliminating the need for API keys.
 
 ## Features
 
 ### Video Information
 * Get video details (title, description, duration, etc.)
-* List channel videos
-* Get video statistics (views, likes, comments)
 * Search videos across YouTube
+* Get trending videos
+* Get related videos for any video
 
 ### Transcript Management
 * Retrieve video transcripts
@@ -19,207 +18,134 @@ A Model Context Protocol (MCP) server implementation for YouTube, enabling AI la
 
 ### Channel Management
 * Get channel details
-* List channel playlists
+* List channel videos
 * Get channel statistics
-* Search within channel content
 
 ### Playlist Management
-* List playlist items
 * Get playlist details
-* Search within playlists
-* Get playlist video transcripts
+* List playlist items
+* Get playlist statistics
 
 ## Installation
 
 ### Quick Setup for Claude Desktop
 
-1. Install the package:
-```bash
-npm install -g zubeid-youtube-mcp-server
-```
-
-2. Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS or `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
-
-```json
-{
-  "mcpServers": {
-    "zubeid-youtube-mcp-server": {
-      "command": "zubeid-youtube-mcp-server",
-      "env": {
-        "YOUTUBE_API_KEY": "your_youtube_api_key_here"
-      }
-    }
-  }
-}
-```
-
-### Alternative: Using NPX (No Installation Required)
-
-Add this to your Claude Desktop configuration:
+Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS or `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
 
 ```json
 {
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": ["-y", "zubeid-youtube-mcp-server"],
-      "env": {
-        "YOUTUBE_API_KEY": "your_youtube_api_key_here"
-      }
+      "args": ["github:acehoss/youtube-mcp-server"]
     }
   }
 }
 ```
 
-### Installing via Smithery
+That's it! No API keys or additional configuration required.
 
-To install YouTube MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@ZubeidHendricks/youtube):
+### Local Development
 
+1. Clone the repository:
 ```bash
-npx -y @smithery/cli install @ZubeidHendricks/youtube --client claude
+git clone https://github.com/acehoss/youtube-mcp-server.git
+cd youtube-mcp-server
 ```
 
-## Configuration
-Set the following environment variables:
-* `YOUTUBE_API_KEY`: Your YouTube Data API key (required)
-* `YOUTUBE_TRANSCRIPT_LANG`: Default language for transcripts (optional, defaults to 'en')
-### Using with VS Code
-
-For one-click installation, click one of the install buttons below:
-
-[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-NPM-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=youtube&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22zubeid-youtube-mcp-server%22%5D%2C%22env%22%3A%7B%22YOUTUBE_API_KEY%22%3A%22%24%7Binput%3AapiKey%7D%22%7D%7D&inputs=%5B%7B%22type%22%3A%22promptString%22%2C%22id%22%3A%22apiKey%22%2C%22description%22%3A%22YouTube+API+Key%22%2C%22password%22%3Atrue%7D%5D) [![Install with NPX in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-NPM-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=youtube&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22zubeid-youtube-mcp-server%22%5D%2C%22env%22%3A%7B%22YOUTUBE_API_KEY%22%3A%22%24%7Binput%3AapiKey%7D%22%7D%7D&inputs=%5B%7B%22type%22%3A%22promptString%22%2C%22id%22%3A%22apiKey%22%2C%22description%22%3A%22YouTube+API+Key%22%2C%22password%22%3Atrue%7D%5D&quality=insiders)
-
-### Manual Installation
-
-If you prefer manual installation, first check the install buttons at the top of this section. Otherwise, follow these steps:
-
-Add the following JSON block to your User Settings (JSON) file in VS Code. You can do this by pressing `Ctrl + Shift + P` and typing `Preferences: Open User Settings (JSON)`.
-
-```json
-{
-  "mcp": {
-    "inputs": [
-      {
-        "type": "promptString",
-        "id": "apiKey",
-        "description": "YouTube API Key",
-        "password": true
-      }
-    ],
-    "servers": {
-      "youtube": {
-        "command": "npx",
-        "args": ["-y", "zubeid-youtube-mcp-server"],
-        "env": {
-          "YOUTUBE_API_KEY": "${input:apiKey}"
-        }
-      }
-    }
-  }
-}
+2. Install dependencies:
+```bash
+npm install
 ```
 
-Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace:
-
-```json
-{
-  "inputs": [
-    {
-      "type": "promptString",
-      "id": "apiKey",
-      "description": "YouTube API Key",
-      "password": true
-    }
-  ],
-  "servers": {
-    "youtube": {
-      "command": "npx",
-      "args": ["-y", "zubeid-youtube-mcp-server"],
-      "env": {
-        "YOUTUBE_API_KEY": "${input:apiKey}"
-      }
-    }
-  }
-}
-```
-## YouTube API Setup
-1. Go to Google Cloud Console
-2. Create a new project or select an existing one
-3. Enable the YouTube Data API v3
-4. Create API credentials (API key)
-5. Copy the API key for configuration
-
-## Examples
-
-### Managing Videos
-
-```javascript
-// Get video details
-const video = await youtube.videos.getVideo({
-  videoId: "video-id"
-});
-
-// Get video transcript
-const transcript = await youtube.transcripts.getTranscript({
-  videoId: "video-id",
-  language: "en"
-});
-
-// Search videos
-const searchResults = await youtube.videos.searchVideos({
-  query: "search term",
-  maxResults: 10
-});
+3. Build the project:
+```bash
+npm run build
 ```
 
-### Managing Channels
-
-```javascript
-// Get channel details
-const channel = await youtube.channels.getChannel({
-  channelId: "channel-id"
-});
-
-// List channel videos
-const videos = await youtube.channels.listVideos({
-  channelId: "channel-id",
-  maxResults: 50
-});
+4. Run the server:
+```bash
+npm start
 ```
 
-### Managing Playlists
+## Usage Examples
 
-```javascript
-// Get playlist items
-const playlistItems = await youtube.playlists.getPlaylistItems({
-  playlistId: "playlist-id",
-  maxResults: 50
-});
+The MCP server exposes the following tools:
 
-// Get playlist details
-const playlist = await youtube.playlists.getPlaylist({
-  playlistId: "playlist-id"
-});
-```
+### Video Operations
+
+- `videos_getVideo` - Get detailed information about a YouTube video
+- `videos_searchVideos` - Search for videos on YouTube
+- `transcripts_getTranscript` - Get the transcript of a video
+- `videos_getTrending` - Get trending videos
+- `videos_getRelated` - Get videos related to a specific video
+
+### Channel Operations
+
+- `channels_getChannel` - Get channel information
+- `channels_listVideos` - List videos from a channel
+
+### Playlist Operations
+
+- `playlists_getPlaylist` - Get playlist information
+- `playlists_getPlaylistItems` - Get videos in a playlist
 
 ## Development
 
-```bash
-# Install dependencies
-npm install
+### Running Tests
 
-# Run tests
+```bash
+# Run all tests
 npm test
 
-# Build
-npm run build
+# Run unit tests only
+npm run test:unit
 
-# Lint
-npm run lint
+# Run integration tests only
+npm run test:integration
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
+### Building
+
+```bash
+npm run build
+```
+
+### Development Mode
+
+```bash
+npm run dev
+```
+
+## Architecture
+
+This server uses YouTube.js (youtubei.js) to interact with YouTube's internal InnerTube API. This approach:
+- Eliminates the need for API keys
+- Provides access to features not available in the official API
+- Offers better performance for transcript retrieval
+- Reduces rate limiting concerns
+
+## Testing
+
+The project includes comprehensive test coverage:
+
+- **Unit Tests**: Mock YouTube.js responses to test service logic
+- **Integration Tests**: Real API calls using known test data (e.g., Rick Astley's "Never Gonna Give You Up")
+
+Integration tests require an internet connection and may take longer to run.
+
 ## Contributing
-See CONTRIBUTING.md for information about contributing to this repository.
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Built on [YouTube.js](https://github.com/LuanRT/YouTube.js) by LuanRT
+- Implements the [Model Context Protocol](https://modelcontextprotocol.io/) specification

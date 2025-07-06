@@ -1,11 +1,11 @@
 {
-  "name": "zubeid-youtube-mcp-server",
+  "name": "youtube-mcp-server",
   "version": "1.0.0",
   "description": "YouTube MCP Server Implementation",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "zubeid-youtube-mcp-server": "dist/cli.js"
+    "youtube-mcp-server": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -16,19 +16,23 @@
     "start": "node ./dist/index.js",
     "build": "tsc",
     "dev": "nodemon --exec \"npm run build && npm start\" --ext ts",
-    "prepublishOnly": "npm run build"
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.1.1",
-    "googleapis": "^129.0.0",
-    "ytdl-core": "^4.11.5",
-    "youtube-transcript": "^1.0.6"
+    "youtubei.js": "^10.5.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
     "typescript": "^5.0.0",
     "ts-node": "^10.9.1",
-    "nodemon": "^3.0.0"
+    "nodemon": "^3.0.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
   },
   "keywords": [
     "youtube",
@@ -38,14 +42,14 @@
     "claude",
     "anthropic"
   ],
-  "author": "Zubeid Hendricks",
+  "author": "Aaron Heise",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZubeidHendricks/youtube-mcp-server.git"
+    "url": "git+https://github.com/acehoss/youtube-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/ZubeidHendricks/youtube-mcp-server/issues"
+    "url": "https://github.com/acehoss/youtube-mcp-server/issues"
   },
-  "homepage": "https://github.com/ZubeidHendricks/youtube-mcp-server#readme"
+  "homepage": "https://github.com/acehoss/youtube-mcp-server#readme"
 }

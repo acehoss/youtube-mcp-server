@@ -4,10 +4,7 @@ import {
     CallToolRequestSchema,
     ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { VideoService } from './services/video.js';
-import { TranscriptService } from './services/transcript.js';
-import { PlaylistService } from './services/playlist.js';
-import { ChannelService } from './services/channel.js';
+import { YouTubeService } from './services/youtube.js';
 import {
     VideoParams,
     SearchParams,
@@ -21,7 +18,7 @@ import {
 export async function startMcpServer() {
     const server = new Server(
         {
-            name: 'zubeid-youtube-mcp-server',
+            name: 'youtube-mcp-server',
             version: '1.0.0',
         },
         {
@@ -31,10 +28,7 @@ export async function startMcpServer() {
         }
     );
 
-    const videoService = new VideoService();
-    const transcriptService = new TranscriptService();
-    const playlistService = new PlaylistService();
-    const channelService = new ChannelService();
+    const youtubeService = new YouTubeService();
 
     server.setRequestHandler(ListToolsRequestSchema, async () => {
         return {
@@ -170,7 +164,7 @@ export async function startMcpServer() {
         try {
             switch (name) {
                 case 'videos_getVideo': {
-                    const result = await videoService.getVideo(args as unknown as VideoParams);
+                    const result = await youtubeService.getVideo(args as unknown as VideoParams);
                     return {
                         content: [{
                             type: 'text',
@@ -180,7 +174,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'videos_searchVideos': {
-                    const result = await videoService.searchVideos(args as unknown as SearchParams);
+                    const result = await youtubeService.searchVideos(args as unknown as SearchParams);
                     return {
                         content: [{
                             type: 'text',
@@ -190,7 +184,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'transcripts_getTranscript': {
-                    const result = await transcriptService.getTranscript(args as unknown as TranscriptParams);
+                    const result = await youtubeService.getTranscript(args as unknown as TranscriptParams);
                     return {
                         content: [{
                             type: 'text',
@@ -200,7 +194,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'channels_getChannel': {
-                    const result = await channelService.getChannel(args as unknown as ChannelParams);
+                    const result = await youtubeService.getChannel(args as unknown as ChannelParams);
                     return {
                         content: [{
                             type: 'text',
@@ -210,7 +204,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'channels_listVideos': {
-                    const result = await channelService.listVideos(args as unknown as ChannelVideosParams);
+                    const result = await youtubeService.listVideos(args as unknown as ChannelVideosParams);
                     return {
                         content: [{
                             type: 'text',
@@ -220,7 +214,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'playlists_getPlaylist': {
-                    const result = await playlistService.getPlaylist(args as unknown as PlaylistParams);
+                    const result = await youtubeService.getPlaylist(args as unknown as PlaylistParams);
                     return {
                         content: [{
                             type: 'text',
@@ -230,7 +224,7 @@ export async function startMcpServer() {
                 }
                 
                 case 'playlists_getPlaylistItems': {
-                    const result = await playlistService.getPlaylistItems(args as unknown as PlaylistItemsParams);
+                    const result = await youtubeService.getPlaylistItems(args as unknown as PlaylistItemsParams);
                     return {
                         content: [{
                             type: 'text',
@@ -258,8 +252,8 @@ export async function startMcpServer() {
     await server.connect(transport);
     
     // Log the server info
-    console.log(`YouTube MCP Server v1.0.0 started successfully`);
-    console.log(`Server will validate YouTube API key when tools are called`);
+    //console.log(`YouTube MCP Server v1.0.0 started successfully`);
+    //console.log(`Server will validate YouTube API key when tools are called`);
     
     return server;
 }
