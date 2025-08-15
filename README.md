@@ -37,7 +37,7 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
   "mcpServers": {
     "youtube": {
       "command": "npx",
-      "args": ["github:acehoss/youtube-mcp-server"]
+      "args": ["-y","git+https://github.com/acehoss/youtube-mcp-server"]
     }
   }
 }
