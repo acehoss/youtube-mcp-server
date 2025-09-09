@@ -1,4 +1,3 @@
-import { Innertube } from 'youtubei.js';
 import type { 
   VideoParams, 
   SearchParams, 
@@ -14,20 +13,26 @@ import type {
  * Unified YouTube service using YouTube.js (youtubei.js)
  */
 export class YouTubeService {
-  private innertube: Innertube | null = null;
+  private innertube: any | null = null;
   private initialized = false;
+  private innertubeFactory?: () => Promise<any>;
 
-  constructor() {
-    // Lazy initialization
+  constructor(innertubeFactory?: () => Promise<any>) {
+    this.innertubeFactory = innertubeFactory;
   }
 
   private async initialize() {
     if (this.initialized) return;
     
     try {
-      this.innertube = await Innertube.create({
-        generate_session_locally: true
-      });
+      if (this.innertubeFactory) {
+        this.innertube = await this.innertubeFactory();
+      } else {
+        const { Innertube } = await import('youtubei.js');
+        this.innertube = await Innertube.create({
+          generate_session_locally: true
+        });
+      }
       this.initialized = true;
     } catch (error) {
       throw new Error(`Failed to initialize YouTube service: ${error instanceof Error ? error.message : String(error)}`);

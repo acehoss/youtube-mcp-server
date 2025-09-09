@@ -1,14 +1,7 @@
 import { YouTubeService } from '../../../src/services/youtube.js';
 import { jest } from '@jest/globals';
 
-// Mock youtubei.js
-jest.mock('youtubei.js', () => {
-  return {
-    Innertube: {
-      create: jest.fn()
-    }
-  };
-});
+// No module mocks needed; we'll inject a factory
 
 describe('YouTubeService', () => {
   let service: YouTubeService;
@@ -26,12 +19,8 @@ describe('YouTubeService', () => {
       getTrending: jest.fn()
     };
 
-    // Mock Innertube.create to return our mock instance
-    const youtubeiJs = require('youtubei.js');
-    const mockCreate = youtubeiJs.Innertube.create as jest.MockedFunction<any>;
-    mockCreate.mockResolvedValue(mockInnertube);
-
-    service = new YouTubeService();
+    // Inject mock innertube via factory
+    service = new YouTubeService(async () => mockInnertube);
   });
 
   describe('getVideo', () => {
